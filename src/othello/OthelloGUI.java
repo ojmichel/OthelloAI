@@ -64,16 +64,8 @@ public class OthelloGUI extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+
 		if(turn) {
-//			for(int[] move : moves) {
-//				int i = move[0];
-//				int j = move[1];
-//				
-//				if(e.getSource() == gameButtons[i][j]) {
-//					return new int[] {i,j};
-//				}
-//			}
 			
 			for(int i = 0; i < N; i++) {
 				for(int j = 0; j < N; j++) {
@@ -93,27 +85,34 @@ public class OthelloGUI extends JFrame implements ActionListener{
 	}
 	
 	public int[] getTurn(ArrayList<ArrayList<Integer>> valid_moves) {
+		
 		nextMove = new int[] {-1,-1};
 		this.moves = valid_moves;
 		turn = true;
 		updated = false;
+		
 		while(!updated) {
+			
 			try {
 				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} 
+			catch (InterruptedException e) {
+
 				e.printStackTrace();
 			}
 		}
+		
 		return nextMove;
 	}
 	
 	public void set_cell(int i, int j, int k) {
-		// TODO Auto-generated method stub
+
 		if(k == BLACK) {
+			
 			gameButtons[i][j].setText("B");
 		}
 		else if(k == WHITE) {
+			
 			gameButtons[i][j].setText("W");
 		}
 		

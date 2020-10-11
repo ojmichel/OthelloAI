@@ -21,7 +21,7 @@ public class OthelloGame {
 		
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				//set_cell(i,j,EMPTY);
+				set_cell(i,j,EMPTY);
 			}
 		}
 		
@@ -32,12 +32,11 @@ public class OthelloGame {
 		set_cell(4,3,BLACK);
 		
 		
-		play();
 		
 	}
 	
-	private void play() {
-		// TODO Auto-generated method stub
+	public void play() {
+		
 		int player = WHITE;
 		boolean done = false;
 		
@@ -60,22 +59,57 @@ public class OthelloGame {
 			int[] turn = GUI.getTurn(valid_moves);
 			int i = turn[0];
 			int j = turn[1];
-			//System.out.println(i + " " + j);
+			
 			set_cell(i,j,player);
 			player = 2  - ((1 + player) % 2);
+			
 			try {
 				Thread.sleep(100);
+				
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
+				
 			}
 		}
 		
 	}
 
-	private boolean valid_move(int i, int j, int player) {
+	public boolean valid_move(int i, int j, int player) {
 		// TODO Auto-generated method stub
-		return i == 0 && j == 0;
+		
+		if(board[i][j] != 0) return false;
+		int[] delta = new int[] {-1,0,1};
+		
+		for(int a : delta) {
+			for(int b : delta) {
+				
+				int opposite_color = 2 + ((1 - player) % 2);
+				boolean found_opposite_color = false;
+				boolean valid = true;
+				int a0 = i + a;
+				int b0 = j + b;
+				
+				
+				if(a!= 0 || b != 0) {
+					while(a0 >= 0 && a0 < N && b0 >= 0 && b0 < N && valid) {
+						
+						if(board[a0][b0] == opposite_color ){
+							found_opposite_color = true;
+						}
+						if(board[a0][b0] == EMPTY) {
+							valid = false;
+						}
+						if(found_opposite_color && board[a0][b0] == player) {
+							return true;
+						}
+						a0 += a;
+						b0 += b;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	private void set_cell(int i,int j,int k) {
@@ -94,6 +128,10 @@ public class OthelloGame {
 		else {
 			throw new Exception("Cannot flip empty cell.");
 		}
+	}
+	
+	public void close() {
+		GUI.close();
 	}
 
 }

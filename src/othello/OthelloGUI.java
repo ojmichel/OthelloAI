@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -73,8 +74,7 @@ public class OthelloGUI extends JFrame implements ActionListener{
 //					return new int[] {i,j};
 //				}
 //			}
-			System.out.println(moves.get(0).get(0) + " " + moves.get(0).get(1));
-			System.out.println("gi");
+			
 			for(int i = 0; i < N; i++) {
 				for(int j = 0; j < N; j++) {
 					if(e.getSource() == gameButtons[i][j]) {
@@ -82,10 +82,8 @@ public class OthelloGUI extends JFrame implements ActionListener{
 						temp.add(i);
 						temp.add(j);
 						if(moves.contains(temp)) {
-							System.out.println("budfs");
 							nextMove = new int[] {i,j};
 							updated = true;
-							System.out.println(i + " " + j);
 							turn = false;
 						}
 					}
@@ -112,7 +110,6 @@ public class OthelloGUI extends JFrame implements ActionListener{
 	
 	public void set_cell(int i, int j, int k) {
 		// TODO Auto-generated method stub
-		System.out.println(i + " " + j + " ");
 		if(k == BLACK) {
 			gameButtons[i][j].setText("B");
 		}
@@ -121,6 +118,10 @@ public class OthelloGUI extends JFrame implements ActionListener{
 		}
 		
 		
+	}
+	
+	public void close() {
+		dispose();
 	}
 	
 }

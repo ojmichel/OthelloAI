@@ -150,6 +150,12 @@ public class OthelloGUI extends JFrame implements ActionListener{
 		
 	}
 	
+	public void broadcast(String message) {
+		
+		messagePanel.setText(message);
+		
+	}
+	
 	public void close() {
 		dispose();
 	}

@@ -1,6 +1,7 @@
 package othello;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OthelloGame {
 
@@ -10,6 +11,7 @@ public class OthelloGame {
 	public final int BLACK = 1;
 	public final int WHITE = 2;
 	public OthelloGUI GUI;
+	private HashMap<Integer,String> playerMap;
 	
 	public final int[][] board = new int[8][8];
 	
@@ -31,6 +33,9 @@ public class OthelloGame {
 		set_cell(3,4,BLACK);
 		set_cell(4,3,BLACK);
 		
+		playerMap = new HashMap<Integer,String>();
+		playerMap.put(WHITE, "Player 1");
+		playerMap.put(BLACK, "Player 2");
 		
 		
 	}
@@ -40,24 +45,95 @@ public class OthelloGame {
 		int player = WHITE;
 		boolean done = false;
 		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		
 		while(!done) {
 			
-			ArrayList<ArrayList<Integer>> valid_moves = get_valid_moves(player);
+			if(!check_full()) {
+				ArrayList<ArrayList<Integer>> valid_moves = get_valid_moves(player);
+				
+				if(valid_moves.isEmpty()) {
+					if(get_valid_moves(2  - ((1 + player) % 2)).isEmpty()) {
+						done = true;
+						GUI.broadcast("No possible moves remain for either player...");
+						
+					}
+					else {
+						GUI.broadcast("No possible moves for " + playerMap.get(player) + ".");
+					}
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					
+					GUI.broadcast(playerMap.get(player) + "'s turn.");
+					int[] m = GUI.getTurn(valid_moves);
+					ArrayList<Integer> move = new ArrayList<Integer>();
+					move.add(m[0]);
+					move.add(m[1]);
+					
+					
+					execute_move(move,player);
+					
+				
+				}
+				player = 2  - ((1 + player) % 2);
+			}
+			else {
+				done = true;
+			}
 			
-			int[] m = GUI.getTurn(valid_moves);
-			ArrayList<Integer> move = new ArrayList<Integer>();
-			move.add(m[0]);
-			move.add(m[1]);
-			
-			
-			execute_move(move,player);
-			player = 2  - ((1 + player) % 2);
-			
-
+		}
+		
+		int p1_total = 0;
+		int p2_total = 0;
+		
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j< N ; j++) {
+				if(board[i][j] == WHITE) {
+					p1_total++;
+				}
+				else if(board[i][j] == BLACK) {
+					p2_total++;
+				}
+			}
+		}
+		
+		if(p1_total > p2_total) {
+			GUI.broadcast(playerMap.get(WHITE) + " is the winner!");
+		}
+		else if(p2_total > p1_total){
+			GUI.broadcast(playerMap.get(BLACK) + " is the winner!");
+		}
+		else {
+			GUI.broadcast("The game is a tie.");
 		}
 		
 	}
+	
+
+	private boolean check_full() {
+		
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j< N ; j++) {
+				if(board[i][j] == EMPTY) {
+					return false;
+				}
+			}
+		}
+		
+		
+		return true;
+	}
+
 	public ArrayList<ArrayList<Integer>> get_valid_moves(int player) {
 		
 		ArrayList<ArrayList<Integer>> valid_moves = new ArrayList<ArrayList<Integer>>();

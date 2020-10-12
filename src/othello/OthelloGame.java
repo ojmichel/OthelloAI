@@ -98,6 +98,9 @@ public class OthelloGame {
 						if(board[a0][b0] == EMPTY) {
 							valid = false;
 						}
+						if(!found_opposite_color && board[a0][b0] == player) {
+							valid = false;
+						}
 						if(found_opposite_color && board[a0][b0] == player) {
 							return true;
 						}

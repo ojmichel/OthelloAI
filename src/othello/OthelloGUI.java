@@ -30,8 +30,8 @@ public class OthelloGUI extends JFrame implements ActionListener{
 	private ArrayList<ArrayList<Integer>> moves;
 	private int[] nextMove;
 	private int N;
-	private BufferedImage blackPiece;
-	private BufferedImage whitePiece;
+	private Image blackPiece;
+	private Image whitePiece;
 	
 	private static final Dimension DIM = new Dimension(800,600);
 	
@@ -42,8 +42,8 @@ public class OthelloGUI extends JFrame implements ActionListener{
 		this.N = N;
 		
 		try {
-			blackPiece = ImageIO.read(new File("src/othello/black_dot.jpg"));
-			whitePiece = ImageIO.read(new File("src/othello/white_dot.jpg"));
+			blackPiece = ImageIO.read(new File("src/othello/black_dot.jpg")).getScaledInstance(400 / 8, 400/8, java.awt.Image.SCALE_SMOOTH);
+			whitePiece = ImageIO.read(new File("src/othello/white_dot.jpg")).getScaledInstance(400 / 8, 400/8, java.awt.Image.SCALE_SMOOTH);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

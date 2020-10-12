@@ -1,15 +1,19 @@
 package othello;
 
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,6 +30,8 @@ public class OthelloGUI extends JFrame implements ActionListener{
 	private ArrayList<ArrayList<Integer>> moves;
 	private int[] nextMove;
 	private int N;
+	private BufferedImage blackPiece;
+	private BufferedImage whitePiece;
 	
 	private static final Dimension DIM = new Dimension(800,600);
 	
@@ -34,6 +40,15 @@ public class OthelloGUI extends JFrame implements ActionListener{
 		super("Othello");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.N = N;
+		
+		try {
+			blackPiece = ImageIO.read(new File("src/othello/black_dot.jpg"));
+			whitePiece = ImageIO.read(new File("src/othello/white_dot.jpg"));
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		gamePanel = new JPanel(new GridLayout(8,8));
 		gamePanel.setPreferredSize(DIM);
@@ -108,12 +123,10 @@ public class OthelloGUI extends JFrame implements ActionListener{
 	public void set_cell(int i, int j, int k) {
 
 		if(k == BLACK) {
-			
-			gameButtons[i][j].setText("B");
+			gameButtons[i][j].setIcon(new ImageIcon(blackPiece));
 		}
 		else if(k == WHITE) {
-			
-			gameButtons[i][j].setText("W");
+			gameButtons[i][j].setIcon(new ImageIcon(whitePiece));
 		}
 		
 		

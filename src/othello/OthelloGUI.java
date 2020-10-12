@@ -3,11 +3,11 @@ package othello;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,13 +16,18 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class OthelloGUI extends JFrame implements ActionListener{
 	
 	private JPanel gamePanel;
+	private JLabel messagePanel;
 	private JPanel master;
 	private JButton[][] gameButtons = new JButton[8][8];
+	
 	private final int BLACK = 1;
 	private final int WHITE = 2;
 	private boolean turn = false;
@@ -30,6 +35,7 @@ public class OthelloGUI extends JFrame implements ActionListener{
 	private ArrayList<ArrayList<Integer>> moves;
 	private int[] nextMove;
 	private int N;
+	
 	private Image blackPiece;
 	private Image whitePiece;
 	
@@ -54,10 +60,22 @@ public class OthelloGUI extends JFrame implements ActionListener{
 		gamePanel.setPreferredSize(DIM);
 		gamePanel.setVisible(true);
 		
+		messagePanel = new JLabel("Welcome to Othello!");
+		messagePanel.setPreferredSize(new Dimension(800,100));
+		messagePanel.setHorizontalAlignment(SwingConstants.CENTER);
+		messagePanel.setVerticalAlignment(SwingConstants.CENTER);
+		messagePanel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 40));
+		messagePanel.setVisible(true);
+		
 		master = new JPanel(new FlowLayout());
+		
+		master.add(messagePanel);
 		master.add(gamePanel);
 		master.setVisible(true);
 		master.setPreferredSize(new Dimension(800,800));
+		
+	
+		
 		this.add(master);
 		this.setVisible(true);
 		pack();

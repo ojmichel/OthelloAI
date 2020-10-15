@@ -5,19 +5,20 @@ import java.util.HashMap;
 
 public class OthelloGame {
 
-	public boolean AI;
+	public boolean is_AI;
 	public final int N = 8;
 	public final int EMPTY = 0;
 	public final int BLACK = 1;
 	public final int WHITE = 2;
 	public OthelloGUI GUI;
+	public OthelloAI AI;
 	private HashMap<Integer,String> playerMap;
 	
 	public final int[][] board = new int[8][8];
 	
-	public OthelloGame(boolean AI) {
+	public OthelloGame(boolean is_AI) {
 		
-		this.AI = AI;
+		this.is_AI = is_AI;
 		GUI = new OthelloGUI(N);
 
 		
@@ -37,6 +38,10 @@ public class OthelloGame {
 		playerMap.put(WHITE, "Player 1");
 		playerMap.put(BLACK, "Player 2");
 		
+		if(this.is_AI) {
+			AI = new OthelloEasyAI(board);
+		}
+		
 		
 	}
 	
@@ -46,7 +51,7 @@ public class OthelloGame {
 		boolean done = false;
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -74,14 +79,32 @@ public class OthelloGame {
 				}
 				else {
 					
-					GUI.broadcast(playerMap.get(player) + "'s turn.");
-					int[] m = GUI.getTurn(valid_moves);
-					ArrayList<Integer> move = new ArrayList<Integer>();
-					move.add(m[0]);
-					move.add(m[1]);
+					if(is_AI && player == BLACK) {
+					
+						GUI.broadcast("Player 2 is thinking...");
+						try {
+							Thread.sleep(750);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						GUI.broadcast("");
+						ArrayList<Integer> move = AI.make_move(board, valid_moves);
+						execute_move(move,player);
+					}
+					else {
+						GUI.broadcast(playerMap.get(player) + "'s turn.");
+						int[] m = GUI.getTurn(valid_moves);
+						ArrayList<Integer> move = new ArrayList<Integer>();
+						move.add(m[0]);
+						move.add(m[1]);
+						
+						
+						execute_move(move,player);
+					}
 					
 					
-					execute_move(move,player);
+					
 					
 				
 				}
@@ -254,6 +277,7 @@ public class OthelloGame {
 					flip_cell(m.get(0),m.get(1),player);
 				else
 					set_cell(i,j,player);
+				Thread.sleep(350);
 				
 			} catch (Exception e) {
 				

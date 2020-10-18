@@ -6,8 +6,8 @@ import java.util.Random;
 public class OthelloEasyAI extends OthelloAI {
 
 	
-	public OthelloEasyAI(int[][] board) {
-		super(board);
+	public OthelloEasyAI() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

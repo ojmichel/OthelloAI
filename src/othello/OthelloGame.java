@@ -39,7 +39,7 @@ public class OthelloGame {
 		playerMap.put(BLACK, "Player 2");
 		
 		if(this.is_AI) {
-			AI = new OthelloEasyAI(board);
+			AI = new OthelloMediumAI();
 		}
 		
 		
@@ -88,8 +88,8 @@ public class OthelloGame {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						GUI.broadcast("");
 						ArrayList<Integer> move = AI.make_move(board, valid_moves);
+						GUI.broadcast("");
 						execute_move(move,player);
 					}
 					else {
@@ -274,7 +274,7 @@ public class OthelloGame {
 				assert(board[i][j] != player);
 				
 				if(board[i][j] == opposite_color)
-					flip_cell(m.get(0),m.get(1),player);
+					flip_cell(m.get(0),m.get(1));
 				else
 					set_cell(i,j,player);
 				Thread.sleep(350);
@@ -291,7 +291,7 @@ public class OthelloGame {
 		GUI.set_cell(i,j,k);
 	}
 	
-	private void flip_cell(int i, int j, int k) throws Exception {
+	private void flip_cell(int i, int j) throws Exception {
 		
 		if(board[i][j] == BLACK) {
 			set_cell(i,j,WHITE);

@@ -39,7 +39,7 @@ public class OthelloGame {
 		playerMap.put(BLACK, "Player 2");
 		
 		if(this.is_AI) {
-			AI = new OthelloMediumAI();
+			AI = new OthelloHardAI();
 		}
 		
 		

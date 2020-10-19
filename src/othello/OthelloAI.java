@@ -90,6 +90,58 @@ public abstract class OthelloAI {
 		}
 		
 	}
+	public ArrayList<ArrayList<Integer>> simulate_get_valid_moves(int[][] board, int player){
+		ArrayList<ArrayList<Integer>> valid_moves = new ArrayList<ArrayList<Integer>>();
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++) {
+				if(simulate_valid_move(board,i,j,player)) {
+					ArrayList<Integer> temp = new ArrayList<Integer>();
+					temp.add(i);
+					temp.add(j);
+					valid_moves.add(temp);
+				}
+			}
+		}
+		return valid_moves;
+	}
+	public boolean simulate_valid_move(int[][] board, int i, int j, int player) {
+		if(board[i][j] != 0) return false;
+		int[] delta = new int[] {-1,0,1};
+		
+		for(int a : delta) {
+			for(int b : delta) {
+				
+				int opposite_color = 2 + ((1 - player) % 2);
+				boolean found_opposite_color = false;
+				boolean valid = true;
+				int a0 = i + a;
+				int b0 = j + b;
+				
+				
+				if(a!= 0 || b != 0) {
+					while(a0 >= 0 && a0 < N && b0 >= 0 && b0 < N && valid) {
+						
+						if(board[a0][b0] == opposite_color ){
+							found_opposite_color = true;
+						}
+						if(board[a0][b0] == EMPTY) {
+							valid = false;
+						}
+						if(!found_opposite_color && board[a0][b0] == player) {
+							valid = false;
+						}
+						if(found_opposite_color && board[a0][b0] == player) {
+							return true;
+						}
+						a0 += a;
+						b0 += b;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	
 	public void simulate_flip_cell(int[][] board, int i, int j) throws Exception {
 		if(board[i][j] == WHITE) {
